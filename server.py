@@ -14,9 +14,13 @@ container_name = os.getenv("AZURE_BLOB_CONTAINER_NAME")
 have_camera = False
 try:
     from picamera import PiCamera
+    print("imported")
     camera = PiCamera()
+    print("set camera")
     have_camera = True
-
+except:
+    print("No camera module")
+    
 @app.route('/', methods = ['GET'])
 def welcome_page():
     return "Post to this endpoint to take a picture and upload it"
