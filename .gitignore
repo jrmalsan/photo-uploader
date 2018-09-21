@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# .env
+.env
+
+# Pictures directory
+pictures
+
+# VScode
+.vscode
