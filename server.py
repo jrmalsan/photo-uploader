@@ -14,11 +14,15 @@ block_blob_service = BlockBlobService(os.getenv("AZURE_BLOB_ACCOUNT_NAME"), os.g
 container_name = os.getenv("AZURE_BLOB_CONTAINER_NAME")
 
 have_camera = False
+camera = 0
 try:
     from picamera import PiCamera
     print("imported")
     camera = PiCamera()
-    print("set camera")
+    print("set camera - taking warmup")
+    full_path = './pictures/startup.png'
+    print("Taking the picture")
+    camera.capture(full_path)
     have_camera = True
 except:
     print("No camera module")
@@ -31,7 +35,7 @@ def welcome_page():
 def hello_world():
     if have_camera:
         settings = request.get_json()
-        camera = ch.set_settings(camera, settings)
+        ch.set_settings(camera, settings)
 
         cur_time = str(int(time.time()))
         print(cur_time)
@@ -39,7 +43,7 @@ def hello_world():
         full_path = './pictures/{}'.format(file_name)
         print("Taking the picture")
         camera.capture(full_path)
-        settings = ch.get_settings()
+        settings = ch.get_settings(camera)
 
         print("Uploading the photo")
         block_blob_service.create_blob_from_path(container_name, file_name, full_path)

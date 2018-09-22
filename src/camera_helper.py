@@ -33,13 +33,9 @@ def set_settings(camera, settings):
             camera.iso = int(settings[key])
         elif key == 'shutter_speed':
             camera.shutter_speed = int(settings[key])
-        elif key == 'exposure_speed':
-            camera.exposure_speed = int(settings[key])
         elif key == 'awb':
             camera.awb_mode = 'off'
             camera.awb_gains = awb_gain_parser(settings[key])
-    
-    return camera
 
 def print_something():
     print('something')
