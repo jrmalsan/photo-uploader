@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from flask import Flask
+from flask import request
 app = Flask(__name__)
 
 from azure.storage.blob import BlockBlobService
@@ -34,14 +35,24 @@ def hello_world():
         full_path = './pictures/{}'.format(file_name)
         print("Taking the picture")
         camera.capture(full_path)
+        settings = camera._get_camera_settings()
         print("Uploading the photo")
         block_blob_service.create_blob_from_path(container_name, file_name, full_path)
         print("posted the picture")
-        
+        return_string = str(settings)
+
     else:
         file_path = "./pictures/example.png"
         print("about to post the picture")
-        block_blob_service.create_blob_from_path(container_name, "imagepng_0.png", file_path)
+        block_blob_service.create_blob_from_path(container_name, "example.png", file_path)
         print("posted the picture")
+        return_string = 'Uploaded the example image'
 
-    return "Posted the image"
+    return return_string
+
+@app.route('/test', methods = ['POST'])
+def test_read_json():
+    body = request.get_json()
+    print(type(body))
+    print(body['exp_time'])
+    return str(body)
