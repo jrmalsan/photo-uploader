@@ -35,7 +35,12 @@ def hello_world():
         full_path = './pictures/{}'.format(file_name)
         print("Taking the picture")
         camera.capture(full_path)
-        settings = camera._get_camera_settings()
+        settings = {}
+        settings['iso'] = camera.iso
+        settings['shutter_speed'] = camera.shutter_speed
+        settings['exposure_speed'] = camera.exposure_speed
+        settings['awb'] = camera.awb_gains
+        
         print("Uploading the photo")
         block_blob_service.create_blob_from_path(container_name, file_name, full_path)
         print("posted the picture")
