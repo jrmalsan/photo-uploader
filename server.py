@@ -1,5 +1,6 @@
 import os
 import time
+import src.camera_helper as ch
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -29,18 +30,17 @@ def welcome_page():
 @app.route('/', methods = ['POST'])
 def hello_world():
     if have_camera:
+        settings = request.get_json()
+        camera = ch.set_settings(camera, settings)
+
         cur_time = str(int(time.time()))
         print(cur_time)
         file_name = 'pi-capture-{}.png'.format(cur_time)
         full_path = './pictures/{}'.format(file_name)
         print("Taking the picture")
         camera.capture(full_path)
-        settings = {}
-        settings['iso'] = camera.iso
-        settings['shutter_speed'] = camera.shutter_speed
-        settings['exposure_speed'] = camera.exposure_speed
-        settings['awb'] = camera.awb_gains
-        
+        settings = ch.get_settings()
+
         print("Uploading the photo")
         block_blob_service.create_blob_from_path(container_name, file_name, full_path)
         print("posted the picture")
