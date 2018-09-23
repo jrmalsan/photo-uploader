@@ -7,6 +7,7 @@ load_dotenv()
 
 from flask import Flask
 from flask import request
+from flask import jsonify
 app = Flask(__name__)
 
 from azure.storage.blob import BlockBlobService
@@ -48,7 +49,8 @@ def hello_world():
         print("Uploading the photo")
         block_blob_service.create_blob_from_path(container_name, file_name, full_path)
         print("posted the picture")
-        return_string = str(settings)
+        
+        return jsonify(settings)
 
     else:
         file_path = "./pictures/example.png"
@@ -57,7 +59,8 @@ def hello_world():
         print("posted the picture")
         return_string = 'Uploaded the example image'
 
-    return return_string
+        return return_string
+
 
 @app.route('/test', methods = ['POST'])
 def test_read_json():
