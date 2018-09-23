@@ -68,3 +68,13 @@ def test_read_json():
     print(type(body))
     print(body['exp_time'])
     return str(body)
+
+@app.route('/images', methods = ['DELETE'])
+def remove_images():
+    all_files = os.listdir('./pictures')
+    image_files = [name for name in all_files if name.find('.png') != -1]
+    
+    for image_file in image_files:
+        os.remove('./pictures/{}'.format(image_file))
+    
+    return "Deleted"
