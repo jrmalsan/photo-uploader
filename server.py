@@ -19,7 +19,7 @@ camera = 0
 try:
     from picamera import PiCamera
     print("imported")
-    camera = PiCamera()
+    camera = PiCamera(resolution=(3280,2464))
     print("set camera - taking warmup")
     full_path = './pictures/startup.png'
     print("Taking the picture")
