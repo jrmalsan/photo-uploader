@@ -11,7 +11,7 @@ def get_settings(camera):
     settings['iso'] = camera.iso
     settings['shutter_speed'] = camera.shutter_speed
     settings['exposure_speed'] = camera.exposure_speed
-    settings['awb'] = camera.awb_gains
+    settings['awb'] = str(camera.awb_gains)
 
     return settings
 
